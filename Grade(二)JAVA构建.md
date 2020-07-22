@@ -8,9 +8,14 @@ Gradle 对java的支持，是通过插件实现的。Java 插件是基于合约�
 ~~~
 apply plugin: 'java'
 ~~~
+或者
+~~~
+plugins {
+    id 'java'
+}
+~~~
 
-
-java 插件在项目中添加许多任务。通常只会用到其中的一小部分任务。常用的任务有
+然后就可以使用插件中的任务了。java 插件在项目中添加许多任务。通常只会用到其中的一小部分任务。常用的任务有
 
 - build 编译和测试代码，生成jar包
 - clean 清除build生成的文件
@@ -25,7 +30,7 @@ repositories {
     mavenCentral()
 }
 ~~~
-#### 指定依赖
+#### 引入依赖
 ~~~
 dependencies {
 //    编译阶段
@@ -34,4 +39,82 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+~~~
+
+#### 定制操作
+java 插件给 项目添加了一些默认属性，并赋予了初值。当然也可以根据自己的需求改变值
+
+查看默认属性:
+
+~~~
+gradle properties
+~~~
+声明当前的jdk版本和指定当前项目的版本:
+
+~~~
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+~~~
+测试阶段添加系统属性:
+
+~~~
+test {
+    systemProperties 'property': 'value'
+}
+~~~
+
+
+
+#### 发布jar 文件
+~~~
+uploadArchives {
+    repositories {
+        flatDir {
+            // 指定生成jar包的位置
+            dirs 'repos'
+        }
+    }
+}
+~~~
+
+
+#### 一个完整的java构建脚本
+
+~~~
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
 ~~~
