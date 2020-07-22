@@ -1,0 +1,18 @@
+group 'com.demo.common'
+version '1.0-SNAPSHOT'
+
+
+dependencies {
+}
+
+// 发布jar文件
+uploadArchives {
+    repositories {
+        flatDir {
+            // 指定生成jar包的位置
+            dirs 'repos'
+        }
+    }
+}
+
+
