@@ -118,3 +118,35 @@ uploadArchives {
     }
 }
 ~~~
+
+
+####  多项目构建
+
+step1: setting.gradle 声明 项目包含的模块
+
+~~~
+include "common", "gradle-java"
+
+~~~
+step2: 添加公共配置
+
+~~~
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+       mavenCentral()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.11'
+    }
+
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+}
+~~~
+

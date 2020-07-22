@@ -1,115 +1,135 @@
-// 定义一个hello的任务
-task hello {
-    doLast {
-        println 'Hello world!'
+//// 定义一个hello的任务
+//task hello {
+//    doLast {
+//        println 'Hello world!'
+//    }
+//}
+//
+//
+//task hello2 doLast {
+//    String s = '123123'
+//    println s.toUpperCase()
+//}
+//
+//
+//// 任务依赖  taskB依赖taskA ，taskA 不需要提前定义
+//task taskB(dependsOn: 'taskA') {
+//    doLast {
+//        println "I'm Gradle"
+//    }
+//}
+//
+//
+//task taskA {
+//    doLast {
+//        println 'Hello world!'
+//    }
+//}
+//
+//
+////动态任务, 使用gradle -q task1  或者 gradle -q task1.... 执行，注意使用 $ 占位符，需要使用 ""
+//4.times { counter ->
+//    task "task$counter" doLast {
+//        println "task $counter"
+//
+//    }
+//}
+//
+//
+//// 添加额外的依赖
+//4.times { counter ->
+//    task "taskMore$counter" doLast {
+//        println "taskMore $counter"
+//
+//    }
+//}
+//
+//taskMore1.dependsOn(taskMore2, taskMore3)
+//
+//
+////  给已经存在的任务添加行为
+//
+//task addBehavior doLast {
+//    println 'behavior'
+//}
+//
+//addBehavior.doFirst {
+//    println(" befor2")
+//}
+//addBehavior.doFirst {
+//    println(" befor1")
+//}
+//
+//addBehavior.doLast {
+//    println(" last1")
+//}
+//addBehavior.doLast {
+//    println(" last2")
+//}
+//
+//// 短标记法
+//
+//task taskShortFlag doLast {
+//    println "taskShortFlag"
+//}
+//
+//taskShortFlag.doLast {
+//    println "name = $taskShortFlag.name ...."
+//}
+//
+//// 自定义属性
+//
+//task customProperty{
+//    ext.myProperty = "value 1"
+////    println "1"
+//}
+//
+//customProperty.doFirst {
+//    println(customProperty.myProperty)
+//}
+//
+//
+//// ant 任务
+//task loadfile doLast {
+//    def files = file('./').listFiles()
+//    files.each { File file ->
+//        if (file.isFile()) {
+//            ant.loadfile(srcFile: file, property: file.name)
+//            println " *** $file.name ***"
+//            println "${ant.properties[file.name]}"
+//        }
+//    }
+//
+//}
+//
+//
+//// 抽取方法
+//
+//task methodInvoke doLast {
+//    println(method1())
+//    println("方法调用完成")
+//}
+//
+//String method1(){
+//    return "method1"
+//}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    
+    repositories {
+        mavenCentral()
     }
-}
 
-
-task hello2 doLast {
-    String s = '123123'
-    println s.toUpperCase()
-}
-
-
-// 任务依赖  taskB依赖taskA ，taskA 不需要提前定义
-task taskB(dependsOn: 'taskA') {
-    doLast {
-        println "I'm Gradle"
-    }
-}
-
-
-task taskA {
-    doLast {
-        println 'Hello world!'
-    }
-}
-
-
-//动态任务, 使用gradle -q task1  或者 gradle -q task1.... 执行，注意使用 $ 占位符，需要使用 ""
-4.times { counter ->
-    task "task$counter" doLast {
-        println "task $counter"
-
-    }
-}
-
-
-// 添加额外的依赖
-4.times { counter ->
-    task "taskMore$counter" doLast {
-        println "taskMore $counter"
-
-    }
-}
-
-taskMore1.dependsOn(taskMore2, taskMore3)
-
-
-//  给已经存在的任务添加行为
-
-task addBehavior doLast {
-    println 'behavior'
-}
-
-addBehavior.doFirst {
-    println(" befor2")
-}
-addBehavior.doFirst {
-    println(" befor1")
-}
-
-addBehavior.doLast {
-    println(" last1")
-}
-addBehavior.doLast {
-    println(" last2")
-}
-
-// 短标记法
-
-task taskShortFlag doLast {
-    println "taskShortFlag"
-}
-
-taskShortFlag.doLast {
-    println "name = $taskShortFlag.name ...."
-}
-
-// 自定义属性
-
-task customProperty{
-    ext.myProperty = "value 1"
-//    println "1"
-}
-
-customProperty.doFirst {
-    println(customProperty.myProperty)
-}
-
-
-// ant 任务
-task loadfile doLast {
-    def files = file('./').listFiles()
-    files.each { File file ->
-        if (file.isFile()) {
-            ant.loadfile(srcFile: file, property: file.name)
-            println " *** $file.name ***"
-            println "${ant.properties[file.name]}"
-        }
+    dependencies {
+        testCompile 'junit:junit:4.11'
     }
 
-}
+    version = '1.0'
 
-
-// 抽取方法
-
-task methodInvoke doLast {
-    println(method1())
-    println("方法调用完成")
-}
-
-String method1(){
-    return "method1"
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
 }
