@@ -3,7 +3,7 @@ package com;
 /**
  * @author ligen
  * @title: demo
- * @projectName grade-demo
+ * @projectName gradle-demo
  * @description:
  * @date 2020/7/228:43
  */
